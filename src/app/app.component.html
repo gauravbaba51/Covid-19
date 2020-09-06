@@ -1,0 +1,38 @@
+<!-- <app-listview></app-listview> -->
+
+<div class="container pt-5" *ngIf="data$ | async as data">
+  <h4>
+    <p class="text-voilet page-header d-inline-block mr-3">Covid-19</p>
+    <p class="text-dark-blue d-inline-block"> Global Trend </p>
+  </h4>
+  <div class="row pl-2 pr-2">
+    <app-stat-card
+      class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-4"
+      *ngFor="let datum of data.majorStats"
+      [stat]="datum">
+    </app-stat-card>
+  </div>
+  <div class="row box-shadow mt-1 ml-0 mr-0 pt-4 bg-white">
+    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-xs-12">
+      <form>
+        <mat-form-field class="width">
+          <input matInput placeholder="Country" aria-label="Country" [matAutocomplete]="auto"
+            [formControl]="countryCtrl" required matTooltip="Type to filter the Country list"
+            matTooltipPosition="after">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let country of filteredCountry | async" [value]="country.CountryCode">
+              <span>{{ country.Country }} | {{ country.CountryCode }}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <button class="btn btn-primary" (click)="changeCountry(countryCtrl)">Get Details</button>
+      </form>
+    </div>
+    <div *ngIf="showresult" class="col-xl-9 col-lg-9 col-md-8 col-sm-6 col-xs-12">
+      <div class="row">
+        <app-stat-card class="col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 mb-4" *ngFor="let datum of majorStats" [stat]="datum">
+        </app-stat-card >
+      </div>
+    </div>
+  </div>
+</div>
